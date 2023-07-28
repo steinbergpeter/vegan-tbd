@@ -46,3 +46,43 @@ prettierrc.json:
     "singleQuote": true
 }
 ```
+
+### REPO ON GITHUB
+
+create repo vegan-tbd on github
+
+```bash
+git add .
+git commit
+git remote add origin https://github.com/steinbergpeter/vegan-tbd.git
+git remote -v
+git push -u origin main
+```
+
+### SOME ORGANIZATION
+
+clean up page.tsx
+create folders: src/styles, src/components
+add shortcuts to tsconfig.json
+
+### SHADCN/UI
+
+```bash
+npx shadcn-ui@latest init
+npx shadcn-ui@latest add button
+npm i next-themes
+```
+
+components/theme-provider.tsx
+
+```javascript
+"use client"
+
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { type ThemeProviderProps } from "next-themes/dist/types"
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+```
