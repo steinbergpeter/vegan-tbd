@@ -86,3 +86,42 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }
 ```
+
+playing around w shadcn, light/dark toggle
+
+## CLERK (AUTH)
+
+```bash
+npm install @clerk/nextjs
+```
+
+in Providers.tsx:
+
+```bash
+import { ClerkProvider } from '@clerk/nextjs'
+```
+
+in layout:
+
+```javascript
+<ClerkProvider>
+    <html lang="en">
+        <body className={inter.className}>{children}</body>
+    </html>
+</ClerkProvider>
+```
+
+in src/middleware.ts:
+
+```javascript
+import { authMiddleware } from '@clerk/nextjs'
+
+// This example protects all routes including api/trpc routes
+// Please edit this to allow other routes to be public as needed.
+// See https://clerk.com/docs/nextjs/middleware for more information about configuring your middleware
+export default authMiddleware({})
+
+export const config = {
+    matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+}
+```
