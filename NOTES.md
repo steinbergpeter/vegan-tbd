@@ -89,44 +89,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
 playing around w shadcn, light/dark toggle
 
-## CLERK (AUTH)
-
-```bash
-npm install @clerk/nextjs
-```
-
-in Providers.tsx:
-
-```bash
-import { ClerkProvider } from '@clerk/nextjs'
-```
-
-in layout:
-
-```javascript
-<ClerkProvider>
-    <html lang="en">
-        <body className={inter.className}>{children}</body>
-    </html>
-</ClerkProvider>
-```
-
-in src/middleware.ts:
-
-```javascript
-import { authMiddleware } from '@clerk/nextjs'
-
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/nextjs/middleware for more information about configuring your middleware
-export default authMiddleware({})
-
-export const config = {
-    matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-}
-```
-
-## PRISMA (RAILWAY, MYSQL)
+### PRISMA (RAILWAY, MYSQL)
 
 ```bash
 npm install prisma --save-dev
@@ -153,7 +116,7 @@ datasource db {
 DATABASEL_URL=mysql://root:CCBZmUEiKg3AKemvrVTX@containers-us-west-50.railway.app:5573/railway
 ```
 
-# NEXT-AUTH IN PRISMA
+### NEXT-AUTH IN PRISMA
 
 ```javascript
 datasource db {
@@ -210,4 +173,25 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+```
+
+pages/api/auth/[...nextauth].js
+
+```typescript
+import NextAuth from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+export default NextAuth({
+    adapter: PrismaAdapter(prisma),
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
+    ],
+})
 ```
