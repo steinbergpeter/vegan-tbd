@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/libs/auth'
+import { getAuthSession } from '@/lib/auth'
 import ClientSideUserGetter from '@/components/ClientSideUserGetter'
 
 export default async function HomePage() {

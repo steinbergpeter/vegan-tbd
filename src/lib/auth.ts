@@ -1,4 +1,4 @@
-import { db } from '@/libs/db'
+import { db } from '@/lib/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import {
     // type Awaitable,

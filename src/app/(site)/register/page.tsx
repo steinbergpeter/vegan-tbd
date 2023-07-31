@@ -3,7 +3,7 @@
 import {
     type RegistrationValidator,
     registrationSchema,
-} from '@/libs/validation'
+} from '@/lib/validation'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -12,6 +12,7 @@ export default function RegisterPage() {
         register,
         handleSubmit,
         formState: { errors, isSubmitting, isValid },
+        control,
     } = useForm<RegistrationValidator>({
         resolver: zodResolver(registrationSchema),
         mode: 'onBlur',
