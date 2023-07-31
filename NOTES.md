@@ -195,3 +195,8 @@ export default NextAuth({
     ],
 })
 ```
+
+npm install nodemailer
+
+npm install zod
+"@tailwindcss/forms": "^0.5.4"

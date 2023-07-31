@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/providers/theme-provider'
 import type { ReactNode } from 'react'
+import AuthContextProvider from './auth-context-provider'
 
 interface ProvidersProps {
     children: ReactNode
@@ -8,7 +9,7 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <AuthContextProvider>{children}</AuthContextProvider>
         </ThemeProvider>
     )
 }
