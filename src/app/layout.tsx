@@ -1,12 +1,10 @@
 import Header from '@/components/Header'
 import { Toaster } from '@/components/ui/toaster'
 import Providers from '@/providers'
-import '@/styles/globals.css'
+import fonts from '@/styles/fonts'
+import '@/styles/global.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import type { ReactNode } from 'react'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -15,17 +13,15 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
     children: ReactNode
-    modal?: ReactNode
+    authModal?: ReactNode
 }
 
-export default function RootLayout({ children, modal }: RootLayoutProps) {
-    // console.log('😲😲😲modal: ', modal)
-
+export default function RootLayout({ children, authModal }: RootLayoutProps) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
+        <html lang="en" className={fonts}>
+            <body>
                 <Providers>
-                    {modal}
+                    {authModal}
                     <Header />
                     {children}
                     {/* <Footer /> */}

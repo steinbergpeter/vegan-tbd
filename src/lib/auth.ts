@@ -1,23 +1,11 @@
-import { db } from '@/lib/db'
+import { prismaDb } from '@/lib/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import {
-    // type Awaitable,
-    getServerSession,
-    type RequestInternal,
-    type User,
-    type NextAuthOptions,
-} from 'next-auth'
+import { getServerSession, type NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-// import EmailProvider from "next-auth/providers/email";
-
-// type Authorize = (
-//     credentials: Record<'email' | 'username' | 'password', string> | undefined,
-//     req: Pick<RequestInternal, 'query' | 'headers' | 'body' | 'method'>
-// ) => Promise<User | null>
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(db),
+    adapter: PrismaAdapter(prismaDb),
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
