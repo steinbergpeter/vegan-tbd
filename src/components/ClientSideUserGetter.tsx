@@ -5,9 +5,10 @@ import { useSession } from 'next-auth/react'
 
 const ClientSideUserGetter = () => {
     const { data: session } = useSession()
+    const fill = JSON.stringify(session || "Can't access Session")
     return (
         <div>
-            <pre>{JSON.stringify(session || "Can't access Session")}</pre>
+            <h1>{fill}</h1>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import Header from '@/components/Header'
+import { Toaster } from '@/components/ui/toaster'
 import Providers from '@/providers'
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
@@ -14,16 +15,21 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
     children: ReactNode
+    modal?: ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, modal }: RootLayoutProps) {
+    // console.log('😲😲😲modal: ', modal)
+
     return (
         <html lang="en">
             <body className={inter.className}>
                 <Providers>
+                    {modal}
                     <Header />
-                    <main className="mt-32">{children}</main>
+                    {children}
                     {/* <Footer /> */}
+                    <Toaster />
                 </Providers>
             </body>
         </html>
