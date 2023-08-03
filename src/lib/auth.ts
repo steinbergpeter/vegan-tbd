@@ -1,8 +1,9 @@
-import { prismaDb } from '@/lib/db'
+import prismaDb from '@/lib/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { getServerSession, type NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import bcrypt from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prismaDb),
@@ -17,12 +18,10 @@ export const authOptions: NextAuthOptions = {
                 username: {
                     label: 'Username',
                     type: 'text',
-                    placeholder: 'jsmith',
                 },
                 email: {
                     label: 'Email',
                     type: 'text',
-                    placeholder: 'jsmith@email.com',
                 },
                 password: {
                     label: 'Password',
@@ -30,11 +29,24 @@ export const authOptions: NextAuthOptions = {
                 },
             },
             authorize: async (credentials) => {
-                return {
-                    id: '1',
-                    name: 'J Smith',
-                    email: 'brett@gmail.com',
+                const areCredentialsValid =
+                    !!credentials &&
+                    !!credentials.email &&
+                    !!credentials.password
+                if (!areCredentialsValid)
+                    throw new Error('Missing or incomplete credentials')
+                const user = await prismaDb.user.findUnique({
+                    where: { email: credentials.email },
+                })
+                if (!user || !user?.hashedPassword) {
+                    throw new Error('No user found')
                 }
+                const passwordMatch = await bcrypt.compare(
+                    credentials.password,
+                    user.hashedPassword
+                )
+                if (!passwordMatch) throw new Error('Invalid password')
+                return user
             },
         }),
     ],

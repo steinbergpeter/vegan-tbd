@@ -16,4 +16,6 @@ if (process.env.NODE_ENV === 'production') {
     prisma = global.cachedPrisma
 }
 
-export const prismaDb = prisma
+const prismaDb = prisma
+
+export default prismaDb

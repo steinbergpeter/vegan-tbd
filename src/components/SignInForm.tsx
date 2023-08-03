@@ -1,7 +1,5 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Button } from '@/components/ui/button'
 import {
     Form,
@@ -13,14 +11,20 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { loginSchema, type LoginValidator } from '@/lib/validation'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { useForm, type SubmitHandler } from 'react-hook-form'
 
-const RegisterForm = () => {
+const SignInForm = () => {
     const form = useForm<LoginValidator>({
         resolver: zodResolver(loginSchema),
-        mode: 'onChange',
+        mode: 'onBlur',
         progressive: true,
+        defaultValues: {
+            email: '',
+            password: '',
+        },
     })
 
     const {
@@ -30,7 +34,9 @@ const RegisterForm = () => {
     } = form
 
     const onSubmit: SubmitHandler<LoginValidator> = async (data) => {
-        console.log('sign-in: ', data)
+        signIn('credentials', { ...data, redirect: false })
+            .then(() => alert('User has been logged in!'))
+            .catch((err) => alert('Error signing in: ' + err))
     }
 
     return (
@@ -88,4 +94,4 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm
+export default SignInForm

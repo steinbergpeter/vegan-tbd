@@ -9,6 +9,20 @@ const Header = () => {
                 <Link href={'/'} className="italic text-xl font-bold">
                     veganTBD
                 </Link>
+                <nav className="w-1/4">
+                    <ul className="flex space-x-4 justify-between">
+                        <li>
+                            <Link href="/register" className="text-white">
+                                Register
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/sign-in" className="text-white">
+                                Sign In
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
                 <ModeButton />
             </div>
         </header>

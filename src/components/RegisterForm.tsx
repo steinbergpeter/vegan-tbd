@@ -1,7 +1,5 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Button } from '@/components/ui/button'
 import {
     Form,
@@ -16,14 +14,22 @@ import {
     registrationSchema,
     type RegistrationValidator,
 } from '@/lib/validation'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import Link from 'next/link'
+import { useForm, type SubmitHandler } from 'react-hook-form'
 
 const RegisterForm = () => {
     const form = useForm<RegistrationValidator>({
         resolver: zodResolver(registrationSchema),
-        mode: 'onChange',
+        mode: 'onBlur',
         progressive: true,
+        defaultValues: {
+            fullName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        },
     })
 
     const {
@@ -33,7 +39,10 @@ const RegisterForm = () => {
     } = form
 
     const onSubmit: SubmitHandler<RegistrationValidator> = async (data) => {
-        console.log('register: ', data)
+        await axios
+            .post('/api/register', data)
+            .then(() => alert('user created'))
+            .catch((err) => alert('Error registering: ' + err))
     }
 
     return (
