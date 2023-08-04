@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import AuthContextProvider from './auth-context-provider'
+import { Toaster } from '@/components/ui/toaster'
 import dynamic from 'next/dynamic'
-
 const ThemeProvider = dynamic(() => import('./theme-provider'), {
     ssr: false,
 })
@@ -15,6 +15,7 @@ const Providers = ({ children }: ProvidersProps) => {
         <AuthContextProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                 {children}
+                <Toaster />
             </ThemeProvider>
         </AuthContextProvider>
     )

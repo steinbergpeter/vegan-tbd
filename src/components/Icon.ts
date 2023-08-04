@@ -1,8 +1,9 @@
-import { type LucideIcon, X, ArrowLeft } from 'lucide-react'
+import { type LucideIcon, X, ArrowLeft, Eye } from 'lucide-react'
 
 const Icon = {
-    X,
     ArrowLeft,
+    Eye,
+    X,
 }
 
 export default Icon

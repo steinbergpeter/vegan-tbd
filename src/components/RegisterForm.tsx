@@ -18,12 +18,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import Link from 'next/link'
 import { useForm, type SubmitHandler } from 'react-hook-form'
+import Icon from './Icon'
+import { useToast } from './ui/use-toast'
 
 const RegisterForm = () => {
+    const { toast } = useToast()
+
     const form = useForm<RegistrationValidator>({
         resolver: zodResolver(registrationSchema),
-        mode: 'onBlur',
-        progressive: true,
+        mode: 'all',
         defaultValues: {
             fullName: '',
             email: '',
@@ -41,8 +44,19 @@ const RegisterForm = () => {
     const onSubmit: SubmitHandler<RegistrationValidator> = async (data) => {
         await axios
             .post('/api/register', data)
-            .then(() => alert('user created'))
-            .catch((err) => alert('Error registering: ' + err))
+            .then(() =>
+                toast({
+                    title: 'Success!',
+                    description: `You have registered ${data.fullName}`,
+                })
+            )
+            .catch((err) =>
+                toast({
+                    variant: 'destructive',
+                    title: 'Failure!',
+                    description: `Registration error ${err}`,
+                })
+            )
     }
 
     return (
@@ -84,7 +98,11 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="••••••••" {...field} />
+                                <Input
+                                    type="password"
+                                    placeholder="••••••••"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -97,7 +115,11 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Confirm Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="••••••••" {...field} />
+                                <Input
+                                    type="password"
+                                    placeholder="••••••••"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -108,7 +130,7 @@ const RegisterForm = () => {
                     className="disabled:bg-slate-300 w-full bg-green-800 text-white hover:bg-green-700 focus:bg-green-700 focus:ring-green-300 focus:ring-offset-green-800 focus:ring-2 focus:ring-offset-2 focus:"
                     disabled={!isValid || isSubmitting}
                 >
-                    Submit
+                    {isSubmitting ? 'Processing' : 'Submit'}
                 </Button>
                 <div>
                     <p>

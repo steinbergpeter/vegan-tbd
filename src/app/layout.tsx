@@ -1,5 +1,4 @@
 import Header from '@/components/Header'
-import { Toaster } from '@/components/ui/toaster'
 import Providers from '@/providers'
 import fonts from '@/styles/fonts'
 import '@/styles/global.css'
@@ -25,7 +24,6 @@ export default function RootLayout({ children, authModal }: RootLayoutProps) {
                     <Header />
                     {children}
                     {/* <Footer /> */}
-                    <Toaster />
                 </Providers>
             </body>
         </html>
